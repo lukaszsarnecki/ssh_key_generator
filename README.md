@@ -1,9 +1,13 @@
-# ssh_key_generator
+# SSH Key Generator
+
+[English version](#english-version)
+
+## Polska wersja
 
 Prosty skrypt Bash, który automatycznie tworzy nowy klucz SSH i kopiuje go na wskazany zdalny serwer.
 Pomaga w szybkim skonfigurowaniu logowania bez hasła (SSH key-based authentication).
 
-## Funkcjonalności
+### Funkcjonalności
 
 - Tworzy nowy klucz SSH typu ed25519.
 - Automatycznie nadaje bezpieczne uprawnienia katalogowi .ssh.
@@ -11,7 +15,7 @@ Pomaga w szybkim skonfigurowaniu logowania bez hasła (SSH key-based authenticat
 - Obsługuje własny port SSH i nazwę klucza.
 - Wyświetla czytelne komunikaty błędów i pomoc (--help).
 
-## Instalacja
+### Instalacja
 
 1. Upewnij się, że masz zainstalowanego Gita.
 2. Sklonuj repozytorium z GitHuba:
@@ -27,7 +31,7 @@ cd ssh-key-generator
 chmod +x ssh-key-generator.sh
 ```
 
-## Użycie
+### Użycie
 
 Przykład standardowego użycia:
 ```bash
@@ -50,7 +54,7 @@ Dzięki temu będziesz go mógł wykonać bez konieczność wchodzenia w jego lo
 ```bash
 sudo mv ssh-key-generator.sh /usr/local/bin
 ```
-## Kod źródłowy
+### Kod źródłowy
 ```bash
 #!/bin/bash
 # Określa, że ten skrypt ma być uruchamiany przez program Bash.
@@ -82,7 +86,7 @@ OPIS:
   kopiowania klucza publicznego na zdalny serwer.
 
 UŻYCIE:
-  ./ssh-key-helper.sh -n <nazwa_klucza> -H <zdalny_host> -u <użytkownik> [OPCJE]
+  ./ssh-key-generator.sh -n <nazwa_klucza> -H <zdalny_host> -u <użytkownik> [OPCJE]
 
   Jeśli skrypt zostanie uruchomiony bez argumentów, wyświetli to menu pomocy.
 
@@ -193,3 +197,4 @@ echo -e "\n\e[32mGOTOWE!\e[0m"
 echo -e "Możesz teraz zalogować się za pomocą: ssh ${PORT_ARG} -i ${SSH_KEY_PATH} ${HOST_USER}@${HOST}"
 ```
 
+## English version
