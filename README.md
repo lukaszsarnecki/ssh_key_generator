@@ -4,16 +4,17 @@
 
 ## Polska wersja
 
-Prosty skrypt Bash, który automatycznie tworzy nowy klucz SSH i kopiuje go na wskazany zdalny serwer.
-Pomaga w szybkim skonfigurowaniu logowania bez hasła (SSH key-based authentication).
+Prosty i bezpieczny skrypt Bash do automatyzacji procesu generowania kluczy SSH i ich wdrażania na zdalnych serwerach. 
+Idealne narzędzie dla administratorów systemów, deweloperów i specjalistów DevOps, które przyspiesza konfigurację bezhasłowego dostępu do maszyn.
+
 
 ### Funkcjonalności
 
 - Tworzy nowy klucz SSH typu ed25519.
-- Automatycznie nadaje bezpieczne uprawnienia katalogowi .ssh.
-- Kopiuje klucz publiczny na zdalny serwer przez ssh-copy-id lub metodą alternatywną.
+- Automatycznie nadaje bezpieczne uprawnienia katalogowi <code>.ssh</code>.
+- Kopiuje klucz publiczny na zdalny serwer przez <code>ssh-copy-id</code> lub metodą alternatywną.
 - Obsługuje własny port SSH i nazwę klucza.
-- Wyświetla czytelne komunikaty błędów i pomoc (--help).
+- Wyświetla czytelne komunikaty błędów i pomoc (<code>--help</code>).
 
 ### Instalacja
 
@@ -33,27 +34,47 @@ chmod +x ssh-key-generator.sh
 
 ### Użycie
 
-Przykład standardowego użycia:
-```bash
-./ssh-key-generator.sh -n devops -H example.com -u user
-```
+Skrypt jest uruchamiany z wiersza poleceń z flagami określającymi parametry operacji.
 
-Opcjonalnie możesz dodać port:
-```bash
-./ssh-key-generator.sh -n devops -H example.com -u user -P 2222
-```
-Aby zobaczyć pomoc:
-```bash
-./ssh-key-generator.sh -h
-```
-#### Przeniesienie do /usr/local/bin
-
-Jeśli będziesz użwać skryptu więcej niż raz, możesz go przenieść do katalogu /usr/local/bin. 
-Dzięki temu będziesz go mógł wykonać bez konieczność wchodzenia w jego lokalizację.
+Składnia
 
 ```bash
-sudo mv ssh-key-generator.sh /usr/local/bin
+./ssh-key-helper.sh -n <nazwa_klucza> -H <zdalny_host> -u <użytkownik> [OPCJE]
 ```
+Parametry   
+
+| Krótka opcja | Długa opcja | Opis | Wymagane |
+| --- | --- | --- | ---|
+| -n | --name | Nazwa dla klucza (np. devops). | Tak |
+| -H | --hostname | Nazwa lub adres IP zdalnego hosta, na który skopiować klucz. | Tak |
+| -u | --user | Nazwa użytkownika na zdalnym hoście. | Tak |
+| -P | --port | Numer portu SSH na zdalnym hoście (domyślnie 22). | Nie |
+| -h | -- help | Wyświetla menu pomocy. | Nie |
+
+Przykład
+
+1. Podstawowe użycie:
+Generuje klucz o nazwie <code>vps</code> i kopiuje go na serwer <code>123.45.67.89</code> dla użytkownika <code>root</code>.
+
+```bash
+./ssh-key-generator.sh -n vps -H 123.45.67.89 -u root
+```
+2. Użycie z niestandardowym portem SSH:
+To samo co powyżej, ale łączy się z serwerem na porcie <code>2222</code>.
+3. Wyświetlenie pomocy:
+Jeśli uruchomisz skrypt bez argumentów, pokaże się instrukcja opcjionalnie przez wywołanie parametru <code>-h</code>
+```bash
+./ssh-key-generator.sh
+```
+### Bezpieczeństwo
+- Interaktywne hasło: Skrypt celowo nie przyjmuje hasła jako argumentu. Zamiast tego polega na ssh-copy-id, które w bezpieczny sposób prosi o hasło w terminalu. 
+Zapobiega to przechowywaniu haseł w historii powłoki lub w zmiennych środowiskowych.
+
+- Bezpieczne uprawnienia: Skrypt automatycznie ustawia wymagane przez SSH, restrykcyjne uprawnienia (700 dla katalogu ~/.ssh oraz 600 dla pliku authorized_keys) na zdalnym serwerze.
+
+### Licencja
+Ten projekt jest objęty licencją MIT.
+
 ### Kod źródłowy
 ```bash
 #!/bin/bash
@@ -198,3 +219,75 @@ echo -e "Możesz teraz zalogować się za pomocą: ssh ${PORT_ARG} -i ${SSH_KEY_
 ```
 
 ## English version
+
+A simple Bash script that generates an SSH key pair and deploys the public key to a remote host to enable passwordless login. 
+Useful for sysadmins, developers, and DevOps teams.
+
+### Features
+
+- Creates a new ed25519 SSH key pair.
+- Automatically sets secure permissions for the <code>.ssh</code> folder.
+- Copies the public key to a remote server using <code>ssh-copy-id</code> or an alternative method.
+- Supports custom SSH port and key name.
+- Displays clear error messages and help information (<code>--help</code>).
+
+### Installation
+
+1. Make sure Git and Bash are installed.
+2. Clone the repository from GitHub:
+```bash
+git clone https://github.com/lukaszsarnecki/ssh_key_generator.git
+```
+3. Go to the project directory:
+```bash
+cd ssh-key-generator
+```        
+4. Give execution permission to the script:
+```bash
+chmod +x ssh-key-generator.sh
+```
+
+### Usage
+
+The script is run from the command line with flags specifying the operation parameters.
+
+Syntax
+
+```bash
+./ssh-key-helper.sh -n <key_name> -H <host> -u <user> [options]
+
+```
+Parameters
+
+| Short options | Lond options | Description | Required |
+| --- | --- | --- | ---|
+| -n | --name | Key name (e.g., devops). | Yes |
+| -H | --hostname | Remote hostname or IP. | Yes |
+| -u | --user | Remote user name. | Yes |
+| -P | --port | SSH port (default 22). | No |
+| -h | -- help | Show help | No |
+
+Examples:
+
+1. Podstawowe użycie:
+Generuje klucz o nazwie <code>vps</code> i kopiuje go na serwer <code>123.45.67.89</code> dla użytkownika <code>root</code>.
+
+```bash
+./ssh-key-generator.sh -n vps -H 123.45.67.89 -u root
+```
+2. Użycie z niestandardowym portem SSH:
+To samo co powyżej, ale łączy się z serwerem na porcie <code>2222</code>.
+3. Wyświetlenie pomocy:
+Jeśli uruchomisz skrypt bez argumentów, pokaże się instrukcja opcjionalnie przez wywołanie parametru <code>-h</code>
+```bash
+./ssh-key-generator.sh
+```
+### Bezpieczeństwo
+- Interaktywne hasło: Skrypt celowo nie przyjmuje hasła jako argumentu. Zamiast tego polega na ssh-copy-id, które w bezpieczny sposób prosi o hasło w terminalu. 
+Zapobiega to przechowywaniu haseł w historii powłoki lub w zmiennych środowiskowych.
+
+- Bezpieczne uprawnienia: Skrypt automatycznie ustawia wymagane przez SSH, restrykcyjne uprawnienia (700 dla katalogu ~/.ssh oraz 600 dla pliku authorized_keys) na zdalnym serwerze.
+
+### Licencja
+Ten projekt jest objęty licencją MIT.
+
