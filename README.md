@@ -26,3 +26,19 @@ cd ssh-key-generator
 ```bash
 chmod +x ssh-key-generator.sh
 ```
+
+## Użycie
+
+Przykład standardowego użycia:
+```bash
+./ssh-key-generator.sh -n devops -H example.com -u user
+```
+
+Opcjonalnie możesz dodać port:
+```bash
+./ssh-key-generator.sh -n devops -H example.com -u user -P 2222
+```
+Aby zobaczyć pomoc:
+```bash
+./ssh-key-generator.sh -h
+```
