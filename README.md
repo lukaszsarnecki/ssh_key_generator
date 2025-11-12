@@ -49,7 +49,7 @@ Parametry
 | -H | --hostname | Nazwa lub adres IP zdalnego hosta, na który skopiować klucz. | Tak |
 | -u | --user | Nazwa użytkownika na zdalnym hoście. | Tak |
 | -P | --port | Numer portu SSH na zdalnym hoście (domyślnie 22). | Nie |
-| -h | -- help | Wyświetla menu pomocy. | Nie |
+| -h | --help | Wyświetla menu pomocy. | Nie |
 
 Przykład
 
@@ -84,7 +84,6 @@ set -Eeuo pipefail
 # Jeśli w skrypcie wystąpi błąd, to polecenie wyświetli komunikat z numerem linii, gdzie się on wydarzył.
 trap 'echo -e "\e[31mBŁĄD:\e[0m skrypt zatrzymał się w linii $LINENO." >&2' ERR
 
-
 # --- PRZYGOTOWANIE ZMIENNYCH ---
 # Tutaj przygotowujemy zmienne, które będą przechowywać dane podane przez użytkownika.
 SSH_KEY_DIR="${HOME}/.ssh" # Ścieżka do folderu .ssh w katalogu domowym.
@@ -92,7 +91,6 @@ HOST=""                   # Przechowuje nazwę serwera, na który kopiujemy kluc
 HOST_USER=""              # Przechowuje nazwę użytkownika na tym serwerze.
 PORT=""                   # Przechowuje numer portu SSH.
 NAME=""                   # Przechowuje nazwę dla nowego klucza.
-
 
 # --- FUNKCJA WYŚWIETLAJĄCA POMOC ---
 # Ta funkcja jest odpowiedzialna za wyświetlenie instrukcji obsługi skryptu.
@@ -119,9 +117,7 @@ OPCJE DODATKOWE:
 EOF
 }
 
-
 # --- GŁÓWNA LOGIKA SKRYPTU ---
-
 # Sprawdza, czy użytkownik uruchomił skrypt bez podawania jakichkolwiek parametrów.
 if [ "$#" -eq 0 ]; then
     print_help # Jeśli tak, wyświetla pomoc.
@@ -167,7 +163,6 @@ SSH_KEY_NAME="id_${NAME}_rsa"
 SSH_KEY_PATH="${SSH_KEY_DIR}/${SSH_KEY_NAME}"
 SSH_PUB_KEY="${SSH_KEY_PATH}.pub"
 
-
 # --- GENEROWANIE KLUCZA SSH ---
 echo -e "\e[34m===> Sprawdzanie/Tworzenie klucza SSH...\e[0m"
 # Tworzy folder .ssh, jeśli jeszcze nie istnieje.
@@ -184,7 +179,6 @@ else
     ssh-keygen -t ed25519 -a 100 -f "$SSH_KEY_PATH" -C "${USER}@$(hostname)-$(date +%F)" -N ""
     echo -e "\e[32m✓ Klucz został wygenerowany pomyślnie:\e[0m ${SSH_KEY_PATH}"
 fi
-
 
 # --- KOPIOWANIE KLUCZA NA SERWER ---
 echo -e "\n\e[34m===> Kopiowanie klucza publicznego na ${HOST_USER}@${HOST}...\e[0m"
@@ -207,7 +201,6 @@ else
     ssh "${HOST_USER}@${HOST}" ${PORT_ARG} "mkdir -p ~/.ssh && chmod 700 ~/.ssh && cat >> ~/.ssh/authorized_keys && chmod 600 ~/.ssh/authorized_keys" < "$SSH_PUB_KEY"
     echo -e "\e[32m✓ Klucz powinien zostać dodany do authorized_keys na hoście zdalnym.\e[0m"
 fi
-
 
 # --- ZAKOŃCZENIE ---
 echo -e "\n\e[32mGOTOWE!\e[0m"
@@ -256,13 +249,13 @@ Syntax
 ```
 Parameters
 
-| Short options | Lond options | Description | Required |
+| Short options | Long options | Description | Required |
 | --- | --- | --- | ---|
 | -n | --name | Key name (e.g., devops). | Yes |
 | -H | --hostname | Remote hostname or IP. | Yes |
 | -u | --user | Remote user name. | Yes |
 | -P | --port | SSH port (default 22). | No |
-| -h | -- help | Show help | No |
+| -h | --help | Show help | No |
 
 Examples:
 
@@ -300,7 +293,6 @@ set -Eeuo pipefail
 # If an error occurs, this command will display a message with the line number where it happened.
 trap 'echo -e "\e[31mERROR:\e[0m the script stopped at line $LINENO." >&2' ERR
 
-
 # --- VARIABLE PREPARATION ---
 # Here we define variables that will store data provided by the user.
 SSH_KEY_DIR="${HOME}/.ssh" # Path to the .ssh folder in the home directory.
@@ -308,7 +300,6 @@ HOST=""                   # Stores the name of the server where the key will be 
 HOST_USER=""              # Stores the username on that server.
 PORT=""                   # Stores the SSH port number.
 NAME=""                   # Stores the name for the new key.
-
 
 # --- HELP FUNCTION ---
 # This function displays the script usage instructions.
@@ -335,9 +326,7 @@ OPTIONAL OPTIONS:
 EOF
 }
 
-
 # --- MAIN SCRIPT LOGIC ---
-
 # Checks if the user ran the script without any parameters.
 if [ "$#" -eq 0 ]; then
     print_help # If so, show help.
@@ -383,7 +372,6 @@ SSH_KEY_NAME="id_${NAME}_rsa"
 SSH_KEY_PATH="${SSH_KEY_DIR}/${SSH_KEY_NAME}"
 SSH_PUB_KEY="${SSH_KEY_PATH}.pub"
 
-
 # --- SSH KEY GENERATION ---
 echo -e "\e[34m===> Checking/Creating SSH key...\e[0m"
 # Creates the .ssh folder if it doesn’t already exist.
@@ -400,7 +388,6 @@ else
     ssh-keygen -t ed25519 -a 100 -f "$SSH_KEY_PATH" -C "${USER}@$(hostname)-$(date +%F)" -N ""
     echo -e "\e[32m✓ Key generated successfully:\e[0m ${SSH_KEY_PATH}"
 fi
-
 
 # --- COPYING KEY TO REMOTE SERVER ---
 echo -e "\n\e[34m===> Copying public key to ${HOST_USER}@${HOST}...\e[0m"
@@ -423,7 +410,6 @@ else
     ssh "${HOST_USER}@${HOST}" ${PORT_ARG} "mkdir -p ~/.ssh && chmod 700 ~/.ssh && cat >> ~/.ssh/authorized_keys && chmod 600 ~/.ssh/authorized_keys" < "$SSH_PUB_KEY"
     echo -e "\e[32m✓ Key should now be added to authorized_keys on the remote host.\e[0m"
 fi
-
 
 # --- COMPLETION ---
 echo -e "\n\e[32mDONE!\e[0m"

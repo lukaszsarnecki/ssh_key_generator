@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # =============================================================================
-# Script: create_inventory_en.sh
+# Script: ssh_key_generator.sh
 # Author: Lukasz Sarnecki
 # Date: 11.11.2025
 # =============================================================================
@@ -13,7 +13,6 @@ set -Eeuo pipefail
 # If an error occurs, this command will display a message with the line number where it happened.
 trap 'echo -e "\e[31mERROR:\e[0m the script stopped at line $LINENO." >&2' ERR
 
-
 # --- VARIABLE PREPARATION ---
 # Here we define variables that will store data provided by the user.
 SSH_KEY_DIR="${HOME}/.ssh" # Path to the .ssh folder in the home directory.
@@ -21,7 +20,6 @@ HOST=""                   # Stores the name of the server where the key will be 
 HOST_USER=""              # Stores the username on that server.
 PORT=""                   # Stores the SSH port number.
 NAME=""                   # Stores the name for the new key.
-
 
 # --- HELP FUNCTION ---
 # This function displays the script usage instructions.
@@ -48,9 +46,7 @@ OPTIONAL OPTIONS:
 EOF
 }
 
-
 # --- MAIN SCRIPT LOGIC ---
-
 # Checks if the user ran the script without any parameters.
 if [ "$#" -eq 0 ]; then
     print_help # If so, show help.
@@ -96,7 +92,6 @@ SSH_KEY_NAME="id_${NAME}_rsa"
 SSH_KEY_PATH="${SSH_KEY_DIR}/${SSH_KEY_NAME}"
 SSH_PUB_KEY="${SSH_KEY_PATH}.pub"
 
-
 # --- SSH KEY GENERATION ---
 echo -e "\e[34m===> Checking/Creating SSH key...\e[0m"
 # Creates the .ssh folder if it doesn’t already exist.
@@ -113,7 +108,6 @@ else
     ssh-keygen -t ed25519 -a 100 -f "$SSH_KEY_PATH" -C "${USER}@$(hostname)-$(date +%F)" -N ""
     echo -e "\e[32m✓ Key generated successfully:\e[0m ${SSH_KEY_PATH}"
 fi
-
 
 # --- COPYING KEY TO REMOTE SERVER ---
 echo -e "\n\e[34m===> Copying public key to ${HOST_USER}@${HOST}...\e[0m"
@@ -136,7 +130,6 @@ else
     ssh "${HOST_USER}@${HOST}" ${PORT_ARG} "mkdir -p ~/.ssh && chmod 700 ~/.ssh && cat >> ~/.ssh/authorized_keys && chmod 600 ~/.ssh/authorized_keys" < "$SSH_PUB_KEY"
     echo -e "\e[32m✓ Key should now be added to authorized_keys on the remote host.\e[0m"
 fi
-
 
 # --- COMPLETION ---
 echo -e "\n\e[32mDONE!\e[0m"
