@@ -38,7 +38,7 @@ The script is run from the command line with flags specifying the operation para
 Syntax
 
 ```bash
-./ssh-key-.sh -n <key_name> -H <host> -u <user> [options]
+./ssh-key-generator.sh -n <key_name> -H <host> -u <user> [options]
 
 ```
 Parameters
