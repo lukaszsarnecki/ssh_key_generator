@@ -71,11 +71,14 @@ If you run the script without arguments, the manual will be displayed optionally
 - Enforces secure permissions for ~/.ssh and authorized_keys on the remote host.
 
 ### Code 
+<details>
+<summary>Click to view code</summary>
+
 ```bash
 #!/bin/bash
 
 # =============================================================================
-# Script: create_inventory_en.sh
+# Script: ssh-key-generator.sh
 # Author: Lukasz Sarnecki
 # Date: 11.11.2025
 # =============================================================================
@@ -210,6 +213,7 @@ echo -e "\n\e[32mDONE!\e[0m"
 # Displays a message with an example SSH login command.
 echo -e "You can now log in using: ssh ${PORT_ARG} -i ${SSH_KEY_PATH} ${HOST_USER}@${HOST}"
 ```
+</details>
 
 ## Polish version
 
@@ -282,9 +286,18 @@ Zapobiega to przechowywaniu haseł w historii powłoki lub w zmiennych środowis
 - Bezpieczne uprawnienia: Skrypt automatycznie ustawia wymagane przez SSH, restrykcyjne uprawnienia (700 dla katalogu ~/.ssh oraz 600 dla pliku authorized_keys) na zdalnym serwerze.
 
 ### Kod źródłowy
+
+<details>
+<summary>Kliknij aby wyświetlić kod</summary>
+
 ```bash
 #!/bin/bash
-# Określa, że ten skrypt ma być uruchamiany przez program Bash.
+
+# =============================================================================
+# Skrypt: ssh_key_generator.sh
+# Autor: Łukasz Sarnecki
+# Data: 11.11.2025
+# =============================================================================
 
 # --- USTAWIENIA SKRYPTU ---
 # Te opcje powodują, że skrypt zatrzyma się, jeśli napotka jakikolwiek błąd.
@@ -416,3 +429,4 @@ echo -e "\n\e[32mGOTOWE!\e[0m"
 # Wyświetla informację o zakończeniu pracy i podaje przykładowe polecenie do logowania.
 echo -e "Możesz teraz zalogować się za pomocą: ssh ${PORT_ARG} -i ${SSH_KEY_PATH} ${HOST_USER}@${HOST}"
 ```
+</details>
